@@ -240,8 +240,10 @@ AND dea.location NOT IN ('High income','Europe','North America','South America',
 SELECT *,(RollingPeopleVaccinated/Population)*100
 FROM PercentPopulationVaccinated;
 
--- Creating View to store data for later visualizations
--- VIEW for PercentPopulationVaccinated
+-- Creating ViewS to store data for later Visualizations.
+
+-- VIEW for PercentPopulationVaccinated.
+
 CREATE VIEW PercentPopulationVaccinated AS
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date,
 dea.population, vacc.new_vaccinations, 
@@ -258,7 +260,8 @@ AND dea.location NOT IN ('High income','Europe','North America','South America',
 
 
 
--- Creating View for total population vs Vaccinations
+-- Creating View for total population vs Vaccinations.
+
 CREATE VIEW Total_Population_Vs_Vaccinations AS
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date, -- str_to_date(vacc.date,'%m/%d/%Y')as date, 
 dea.population,vacc.new_vaccinations, 
@@ -274,7 +277,8 @@ and dea.location NOT IN ('High income','Europe','North America','South America',
 ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
 
--- Creating VIEW for Breaking down by Continents
+-- Creating VIEW for Breaking down by Continents.
+
 CREATE VIEW Total_Deaths_by_Continents AS 
 SELECT sq.continent, sum(sq.total_death_count)
 FROM 
@@ -288,6 +292,30 @@ GROUP BY dea.continent, dea.location
 ) sq
 GROUP BY sq.continent
 ORDER BY sum(sq.total_death_count) DESC;
+
+
+-- Creating View for Highest infection rate by location and Percentage of the total population infected by location.
+
+CREATE VIEW HIGHEST_INFECTION_RATE AS
+SELECT dea.location, dea.population, MAX(dea.total_cases) AS Highest_Infection_Rate, 
+(MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
+FROM portfolioproject.covid_deaths dea
+WHERE dea.location NOT IN ('High income','Europe','North America','South America','European Union',
+'Africa','Low income','International','Northern Cyprus','Oceania')
+GROUP BY dea.location, dea.population
+ORDER BY Infected_Population_Percentage DESC;
+
+
+-- Creating View for Highest infection rate by location and Percentage of the total population infected by location with date
+ 
+CREATE VIEW Highest_Infection_Rate_with_Date as
+SELECT dea.location, dea.population,dea.date, MAX(dea.total_cases) AS Highest_Infection_Rate, 
+(MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
+FROM portfolioproject.covid_deaths dea
+WHERE dea.location NOT IN ('High income','Europe','North America','South America','European Union',
+'Africa','Low income','International','Northern Cyprus','Oceania')
+GROUP BY dea.location, dea.population, str_to_date(dea.date,'%m/%d/%Y')
+ORDER BY Infected_Population_Percentage DESC;
 
 
 
