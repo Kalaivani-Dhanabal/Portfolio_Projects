@@ -49,13 +49,13 @@ substr(PropertyAddress,locate(',',PropertyAddress)+1,length(PropertyAddress)) AS
 FROM portfolioproject.nashville_houses;
 
 ALTER TABLE nashville_houses
-ADD Property_Address text;
+ADD Property_Address TEXT;
 
 UPDATE nashville_houses
 SET Property_Address = substr(PropertyAddress, 1, locate(',',PropertyAddress)-1);
 
 ALTER TABLE nashville_houses
-ADD Property_City text;
+ADD Property_City TEXT;
 
 UPDATE nashville_houses
 SET Property_City = substr(PropertyAddress,locate(',',PropertyAddress)+1,length(PropertyAddress));
@@ -73,26 +73,26 @@ SELECT *
 FROM portfolioproject.nashville_houses;
 
 SELECT OwnerAddress,
-substring_index(OwnerAddress,',', 1) as Address,
-substring_index(substring_index(OwnerAddress,',',-2), ',', 1) as City,
-substring_index(OwnerAddress,',',-1) as State
+substring_index(OwnerAddress,',', 1) AS Address,
+substring_index(substring_index(OwnerAddress,',',-2), ',', 1) AS City,
+substring_index(OwnerAddress,',',-1) AS State
 FROM portfolioproject.nashville_houses;
 
 
 ALTER TABLE nashville_houses
-ADD Owner_Address text;
+ADD Owner_Address TEXT;
 
 UPDATE nashville_houses
 SET Owner_Address = substring_index(OwnerAddress,',', 1); 
 
 ALTER TABLE nashville_houses
-ADD Owner_City text;
+ADD Owner_City TEXT;
 
 UPDATE nashville_houses
 SET Owner_City = substring_index(substring_index(OwnerAddress,',',-2), ',', 1);
 
 ALTER TABLE nashville_houses
-ADD Owner_State text;
+ADD Owner_State TEXT;
 
 UPDATE nashville_houses
 SET Owner_State = substring_index(OwnerAddress,',',-1);
@@ -144,7 +144,7 @@ SELECT *,
 			UniqueID
                         )row_num
 
-from portfolioproject.nashville_houses
+FROM portfolioproject.nashville_houses
 )
 
 -- SELECT *
