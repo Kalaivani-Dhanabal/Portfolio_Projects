@@ -240,9 +240,8 @@ AND dea.location NOT IN ('High income','Europe','North America','South America',
 SELECT *,(RollingPeopleVaccinated/Population)*100
 FROM PercentPopulationVaccinated;
 
--- Creating ViewS to store data for later Visualizations.
-
--- VIEW for PercentPopulationVaccinated.
+-- Creating Views to store data for later Visualizations.
+-- View for PercentPopulationVaccinated.
 
 CREATE VIEW PercentPopulationVaccinated AS
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date,
@@ -277,7 +276,7 @@ and dea.location NOT IN ('High income','Europe','North America','South America',
 ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
 
--- Creating VIEW for Breaking down by Continents.
+-- Creating View for Breaking down by Continents.
 
 CREATE VIEW Total_Deaths_by_Continents AS 
 SELECT sq.continent, sum(sq.total_death_count)
