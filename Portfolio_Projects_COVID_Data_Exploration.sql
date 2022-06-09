@@ -40,7 +40,6 @@ ORDER BY Infected_Population_Percentage DESC;
 
 
 -- Showing Countries with Highest Death Count per Population
-
 SELECT dea.location, MAX(cast(dea.total_deaths AS UNSIGNED )) AS Total_Death_Count
 FROM portfolioproject.covid_deaths dea
 WHERE dea.continent IS NOT NULL
@@ -242,7 +241,6 @@ FROM PercentPopulationVaccinated;
 
 -- Creating Views to store data for later Visualizations.
 -- View for PercentPopulationVaccinated.
-
 CREATE VIEW PercentPopulationVaccinated AS
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date,
 dea.population, vacc.new_vaccinations, 
@@ -260,7 +258,6 @@ AND dea.location NOT IN ('High income','Europe','North America','South America',
 
 
 -- Creating View for total population vs Vaccinations.
-
 CREATE VIEW Total_Population_Vs_Vaccinations AS
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date, -- str_to_date(vacc.date,'%m/%d/%Y')as date, 
 dea.population,vacc.new_vaccinations, 
@@ -277,7 +274,6 @@ ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
 
 -- Creating View for Breaking down by Continents.
-
 CREATE VIEW Total_Deaths_by_Continents AS 
 SELECT sq.continent, sum(sq.total_death_count)
 FROM 
@@ -294,7 +290,6 @@ ORDER BY sum(sq.total_death_count) DESC;
 
 
 -- Creating View for Highest infection rate by location and Percentage of the total population infected by location.
-
 CREATE VIEW HIGHEST_INFECTION_RATE AS
 SELECT dea.location, dea.population, MAX(dea.total_cases) AS Highest_Infection_Rate, 
 (MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
@@ -306,7 +301,6 @@ ORDER BY Infected_Population_Percentage DESC;
 
 
 -- Creating View for Highest infection rate by location and Percentage of the total population infected by location with date
- 
 CREATE VIEW Highest_Infection_Rate_with_Date as
 SELECT dea.location, dea.population,dea.date, MAX(dea.total_cases) AS Highest_Infection_Rate, 
 (MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
