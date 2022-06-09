@@ -7,15 +7,15 @@ SELECT *
 FROM portfolioproject.covid_vaccinations;
 
 
--- Selecting the data that are going to be used for querying from the covid_deaths table
+-- Selecting the data that are going to be used for querying from the covid_deaths table.
 SELECT dea.location, str_to_date(dea.date,'%m/%d/%Y') AS date, dea.total_cases, dea.new_cases, dea.new_deaths, dea.population
 FROM portfolioproject.covid_deaths dea
 WHERE dea.continent IS NOT NULL
 ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
 
--- Looking at Total Cases vs Total Deaths
--- Shows the Percentage of dying if you contract covid in a specific location
+-- Looking at Total Cases vs Total Deaths.
+-- Shows the Percentage of dying if you contract covid in a specific location.
 SELECT dea.location, str_to_date(dea.date,'%m/%d/%Y') AS date, 
 dea.total_cases, dea.total_deaths, (dea.total_deaths/ dea.total_cases) * 100 AS Death_Percentage
 FROM portfolioproject.covid_deaths dea
@@ -23,15 +23,15 @@ FROM portfolioproject.covid_deaths dea
 ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
 
--- Looking at Total cases vs Population
--- Showing what Percentege of Population got covid
+-- Looking at Total cases vs Population.
+-- Showing what Percentege of Population got covid.
 SELECT dea.location,str_to_date(dea.date,'%m/%d/%Y') AS date, 
 dea.total_cases, dea.population, (dea.total_cases/dea.population)*100 AS Infected_Population_Percentage
 FROM portfolioproject.covid_deaths dea
 -- WHERE dea.location LIKE '%states%'
 ORDER BY dea.location, str_to_date(dea.date,'%m/%d/%Y');
 
--- Looking at Countries with Highest infection rate compared to Population
+-- Looking at Countries with Highest infection rate compared to Population.
 SELECT dea.location, dea.population, MAX(dea.total_cases) AS Highest_Infection_Rate, 
 (MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
 FROM portfolioproject.covid_deaths dea
@@ -39,7 +39,7 @@ GROUP BY dea.location, dea.population
 ORDER BY Infected_Population_Percentage DESC;
 
 
--- Showing Countries with Highest Death Count per Population
+-- Showing Countries with Highest Death Count per Population.
 SELECT dea.location, MAX(cast(dea.total_deaths AS UNSIGNED )) AS Total_Death_Count
 FROM portfolioproject.covid_deaths dea
 WHERE dea.continent IS NOT NULL
@@ -49,7 +49,7 @@ GROUP BY dea.location
 ORDER BY Total_Death_Count DESC;
 
 
--- Breaking down by Continent
+-- Breaking down by Continent.
 SELECT sq.continent, sum(sq.total_death_count)
 FROM 
 (SELECT dea.continent, dea.location, MAX(cast(total_deaths AS UNSIGNED )) AS total_death_count
@@ -107,7 +107,7 @@ GROUP BY dea.continent, dea.location
 GROUP BY sq.continent,sq.location
 ORDER BY sum(sq.total_death_count) DESC;
 
--- Breaking down the numbers based on the Continent - Asia  with it's countries
+-- Breaking down the numbers based on the Continent - Asia  with it's countries.
 SELECT sq.continent,sq.location AS country, sum(sq.total_death_count) 
 FROM 
 (SELECT dea.continent, dea.location, MAX(cast(total_deaths AS UNSIGNED )) AS total_death_count
@@ -136,7 +136,7 @@ GROUP BY dea.continent, dea.location
 GROUP BY sq.continent,sq.location
 ORDER BY sum(sq.total_death_count) DESC;
 
--- Breaking down the numbers based on the Continent - Oceania, with it's Countries
+-- Breaking down the numbers based on the Continent - Oceania, with it's Countries.
 SELECT sq.continent,sq.location as country, sum(sq.total_death_count) 
 FROM 
 (SELECT dea.continent, dea.location, MAX(cast(total_deaths AS UNSIGNED )) AS total_death_count
@@ -170,11 +170,11 @@ AND dea.location NOT IN ('High income','Europe','North America','South America',
 ORDER BY Date,Total_cases;
 
 
--- Covid_Vaccinations table
+-- Covid_Vaccinations table.
 SELECT *
 FROM portfolioproject.covid_vaccinations;
  
--- Looking at Total Population Vs Vaccinations
+-- Looking at Total Population Vs Vaccinations.
 SELECT dea.continent, dea.location, str_to_date(dea.date,'%m/%d/%Y')AS date, -- str_to_date(vacc.date,'%m/%d/%Y')as date, 
 dea.population,vacc.new_vaccinations, 
 SUM(cast(vacc.new_vaccinations AS UNSIGNED)) OVER (PARTITION BY vacc.location ORDER BY vacc.location, 
@@ -300,7 +300,7 @@ GROUP BY dea.location, dea.population
 ORDER BY Infected_Population_Percentage DESC;
 
 
--- Creating View for Highest infection rate by location and Percentage of the total population infected by location with date
+-- Creating View for Highest infection rate by location and Percentage of the total population infected by location with date.
 CREATE VIEW Highest_Infection_Rate_with_Date as
 SELECT dea.location, dea.population,dea.date, MAX(dea.total_cases) AS Highest_Infection_Rate, 
 (MAX( dea.total_cases)/ dea.population) * 100 AS Infected_Population_Percentage
